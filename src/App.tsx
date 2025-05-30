@@ -1,9 +1,13 @@
+import ExerciseList from './components/ExerciseList'
+
 function App() {
   return (
     <>
-      <header>Header</header>
-      <main>Main</main>
-      <footer>Footer</footer>
+      <header className="flex justify-center">Header</header>
+      <main className="bg-slate-50 py-5">
+        <ExerciseList />
+      </main>
+      <footer className="flex justify-center">Footer</footer>
     </>
   )
 }
