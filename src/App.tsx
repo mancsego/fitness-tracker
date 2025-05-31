@@ -1,15 +1,15 @@
 import ExerciseList from './components/ExerciseList'
+import GroupList from './components/GroupList'
 
-function App() {
+export default function App() {
   return (
     <>
       <header className="flex justify-center">Header</header>
       <main className="bg-slate-50 py-5">
         <ExerciseList />
+        <GroupList />
       </main>
       <footer className="flex justify-center">Footer</footer>
     </>
   )
 }
-
-export default App
