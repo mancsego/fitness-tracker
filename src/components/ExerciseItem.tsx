@@ -1,17 +1,11 @@
-export default function ExerciseItem({
-  name,
-  reps,
-  sets,
-}: {
-  name: string
-  reps: number
-  sets: number
-}) {
+import type { Exercise } from '@/types'
+
+export default function ExerciseItem({ item }: { item: Exercise }) {
   return (
     <div className="flex flex-1 justify-between py-2">
-      <span className="font-bold">{name}</span>
+      <span className="font-bold">{item.name}</span>
       <span>
-        {sets} <span className="font-semibold">x</span> {reps}
+        {item.sets} <span className="font-semibold">x</span> {item.reps}
       </span>
     </div>
   )
