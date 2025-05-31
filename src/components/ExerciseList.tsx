@@ -1,6 +1,6 @@
+import Adder from '@/components/Adder'
+import ExerciseItem from '@/components/ExerciseItem'
 import { useState } from 'react'
-import Adder from './Adder'
-import ExerciseItem from './ExerciseItem'
 
 type Exercise = {
   id?: number
