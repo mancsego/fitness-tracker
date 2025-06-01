@@ -1,17 +1,8 @@
 import type { Exercise } from '@/types'
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 
 const REPS_OPTIONS = [...Array(16).keys()]
-
-function ActionIcon({ use, action }: { use: string; action: () => void }) {
-  return (
-    <div className="p-2 link" onClick={action}>
-      <svg className="fill-primary size-7">
-        <use xlinkHref={`#${use}`} />
-      </svg>
-    </div>
-  )
-}
+const ActionIcon = lazy(() => import('@/components/ActionIcon'))
 
 function EditView({
   item,

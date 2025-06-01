@@ -1,3 +1,4 @@
+import GroupItem from '@/components/GroupItem'
 import type { Group } from '@/types'
 import { lazy, useState } from 'react'
 
@@ -12,7 +13,9 @@ export default function GroupList() {
   ]
   const [state, setState] = useState<Group[]>(initialState)
 
-  const exercises = state.map(({ id, name }) => <div key={id}>{name}</div>)
+  const exercises = state.map((item) => (
+    <GroupItem key={item.id} group={item} />
+  ))
 
   const handler = (name: string) => {
     const ex = {
@@ -25,8 +28,8 @@ export default function GroupList() {
   return (
     <div className="px-2">
       <h1>Groups</h1>
-      <div className="flex flex-col border-b-1 mb-1">{exercises}</div>
       <Adder handler={handler} placeholder="Type name..." />
+      <div className="flex flex-col mt-2">{exercises}</div>
     </div>
   )
 }
