@@ -6,9 +6,15 @@
 }
 
 @layer components {
-  input {
+  input,
+  select {
     @apply p-2 border mx-1 focus:outline-none focus:border-primary;
   }
+
+  .link {
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out;
+  }
+
   .btn {
     @apply py-2 px-3 border border-primary cursor-pointer;
   }

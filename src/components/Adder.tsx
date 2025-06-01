@@ -7,6 +7,7 @@ export default function Adder({
   handler: (name: string) => void
   placeholder: string
 }) {
+  const id = crypto.randomUUID()
   const name = useRef<HTMLInputElement>(null)
   const currentName = () => name?.current
 
@@ -21,8 +22,8 @@ export default function Adder({
     <div className="flex items-center justify-between pt-2">
       <input
         type="text"
-        id="new-exercise"
-        name="new-exercise"
+        id={id}
+        name={id}
         className="flex-1"
         ref={name}
         placeholder={placeholder}
