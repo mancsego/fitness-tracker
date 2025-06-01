@@ -10,8 +10,9 @@ export default function ExerciseList() {
       id: 123,
       group_id: 1,
       name: 'Falafel',
-      sets: 10,
-      reps: 2,
+      weight: 10,
+      sets: 2,
+      reps: 10,
     },
   ]
   const [state, setState] = useState<Exercise[]>(initialState)
@@ -25,6 +26,7 @@ export default function ExerciseList() {
       id: Math.floor(Math.random() * 100),
       name,
       group_id: 1,
+      weight: 0,
       sets: 0,
       reps: 0,
     }
@@ -34,8 +36,8 @@ export default function ExerciseList() {
   return (
     <div className="px-2">
       <h1>Exercises</h1>
-      <div className="flex flex-col border-b-1 mb-1">{exercises}</div>
       <Adder handler={handler} placeholder="Type name..." />
+      <div className="flex flex-col border-b-1 mb-1">{exercises}</div>
     </div>
   )
 }

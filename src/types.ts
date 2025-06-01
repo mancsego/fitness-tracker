@@ -2,6 +2,7 @@ type Exercise = {
   id: number
   group_id: number
   name: string
+  weight: number
   sets: number
   reps: number
 }

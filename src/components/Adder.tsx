@@ -29,7 +29,7 @@ export default function Adder({
         placeholder={placeholder}
       />
       <button className="btn btn-primary" onClick={handle}>
-        bang!
+        +
       </button>
     </div>
   )
