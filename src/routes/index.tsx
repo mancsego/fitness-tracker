@@ -1,10 +1,17 @@
 import GroupItem from '@/components/GroupItem'
+import Loading from '@/components/Loading'
 import type { Group } from '@/types'
+import { createFileRoute } from '@tanstack/react-router'
 import { lazy, useState } from 'react'
+
+export const Route = createFileRoute('/')({
+  component: GroupView,
+  pendingComponent: Loading,
+})
 
 const Adder = lazy(() => import('@/components/Adder'))
 
-export default function GroupList() {
+function GroupView() {
   const initialState = [
     {
       id: 123,

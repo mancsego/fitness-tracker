@@ -1,4 +1,5 @@
 import type { Group } from '@/types'
+import { Link } from '@tanstack/react-router'
 import { lazy, useState } from 'react'
 
 const ActionIcon = lazy(() => import('@/components/ActionIcon'))
@@ -51,7 +52,9 @@ export default function GroupItem({ group }: { group: Group }) {
     <div className="flex items-center py-2">
       <EditView item={group} visible={editing} close={toggleEditView} />
       <ActionIcon use="edit" action={toggleEditView} />
-      {group.name}
+      <Link to="/group/$groupId" params={{ groupId: '' + group.id }}>
+        {group.name}
+      </Link>
     </div>
   )
 }

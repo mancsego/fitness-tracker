@@ -7,9 +7,17 @@ type Exercise = {
   reps: number
 }
 
+type HistoryEntry = {
+  id: number
+  exercise_id: number
+  weight: number
+  sets: number
+  reps: number
+}
+
 type Group = {
   id: number
   name: string
 }
 
-export type { Exercise, Group }
+export type { Exercise, Group, HistoryEntry }
