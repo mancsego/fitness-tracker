@@ -1,6 +1,7 @@
+import { useGroupStore } from '@/store/groups'
 import type { Group } from '@/types'
 import { Link } from '@tanstack/react-router'
-import { lazy, useState } from 'react'
+import { lazy, useRef, useState } from 'react'
 
 const ActionIcon = lazy(() => import('@/components/ActionIcon'))
 
@@ -13,13 +14,18 @@ function EditView({
   visible: boolean
   close: () => void
 }) {
-  const update = () => {
-    console.log(item)
+  const nameRef = useRef<HTMLInputElement>(null)
+
+  const update = useGroupStore(({ update }) => update)
+  const remove = useGroupStore(({ remove }) => remove)
+
+  const handleUpdate = () => {
+    update(item.id, nameRef?.current?.value ?? '')
     close()
   }
 
-  const remove = () => {
-    console.log(item)
+  const handleRemove = () => {
+    remove(item.id)
 
     close()
   }
@@ -33,11 +39,12 @@ function EditView({
         id={`name-${item.id}`}
         name={`name-${item.id}`}
         className="max-w-[170px]"
+        ref={nameRef}
         type="text"
         defaultValue={item.name}
       />
-      <ActionIcon use="delete" action={remove} />
-      <ActionIcon use="save" action={update} />
+      <ActionIcon use="delete" action={handleRemove} />
+      <ActionIcon use="save" action={handleUpdate} />
     </div>
   )
 }

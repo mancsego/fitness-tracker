@@ -10,9 +10,9 @@ function App() {
   return (
     <>
       <IconSet />
-      <header className="flex justify-center">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
+      <header className="flex justify-center items-center h-10">
+        <Link to="/" className="[&.active]:hidden">
+          <span>Home</span>
         </Link>
       </header>
       <main className="bg-slate-50 py-5">

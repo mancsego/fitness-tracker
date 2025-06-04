@@ -4,7 +4,7 @@ import { lazy, useState } from 'react'
 
 const Adder = lazy(() => import('@/components/Adder'))
 
-export default function GroupList() {
+export default function ExerciseList() {
   const initialState = [
     {
       id: 123,

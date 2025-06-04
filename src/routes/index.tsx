@@ -1,35 +1,30 @@
 import GroupItem from '@/components/GroupItem'
 import Loading from '@/components/Loading'
-import type { Group } from '@/types'
+import { useGroupStore } from '@/store/groups'
 import { createFileRoute } from '@tanstack/react-router'
-import { lazy, useState } from 'react'
+import { lazy } from 'react'
 
 export const Route = createFileRoute('/')({
   component: GroupView,
+  loader: async () => {
+    const read = useGroupStore.getState().read
+    await read()
+  },
   pendingComponent: Loading,
 })
 
 const Adder = lazy(() => import('@/components/Adder'))
 
 function GroupView() {
-  const initialState = [
-    {
-      id: 123,
-      name: 'Falafel group',
-    },
-  ]
-  const [state, setState] = useState<Group[]>(initialState)
+  const groups = useGroupStore(({ groups }) => groups)
+  const create = useGroupStore(({ create }) => create)
 
-  const exercises = state.map((item) => (
+  const exercises = groups.map((item) => (
     <GroupItem key={item.id} group={item} />
   ))
 
   const handler = (name: string) => {
-    const ex = {
-      id: Math.floor(Math.random() * 100),
-      name,
-    }
-    setState((prev) => [...prev, ex])
+    create(name)
   }
 
   return (
