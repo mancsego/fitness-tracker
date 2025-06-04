@@ -1,5 +1,5 @@
-import GroupItem from '@/components/GroupItem'
-import Loading from '@/components/Loading'
+import Loading from '@/components/common/Loading'
+import GroupItem from '@/components/group/GroupItem'
 import { useGroupStore } from '@/store/groups'
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy } from 'react'
@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
   pendingComponent: Loading,
 })
 
-const Adder = lazy(() => import('@/components/Adder'))
+const Adder = lazy(() => import('@/components/common/Adder'))
 
 function GroupView() {
   const groups = useGroupStore(({ groups }) => groups)

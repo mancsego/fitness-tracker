@@ -1,4 +1,4 @@
-import IconSet from '@/components/IconSet'
+import IconSet from '@/components/common/IconSet'
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 

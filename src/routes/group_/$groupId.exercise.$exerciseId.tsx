@@ -1,4 +1,4 @@
-import Loading from '@/components/Loading'
+import Loading from '@/components/common/Loading'
 import type { HistoryEntry } from '@/types'
 import { createFileRoute, Link } from '@tanstack/react-router'
 

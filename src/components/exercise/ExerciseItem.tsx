@@ -1,12 +1,13 @@
+import { useExerciseStore } from '@/store/exercises'
 import type { Exercise } from '@/types'
 import { Link } from '@tanstack/react-router'
-import { lazy, useState } from 'react'
+import { lazy, useRef, useState } from 'react'
 
 const [, ...SET_OPTIONS] = [...Array(7).keys()]
 const [, ...REP_OPTIONS] = [...Array(17).keys()]
 const WEIGHTS = Array.from({ length: 15 }, (_, i) => (i + 1) * 2)
 
-const ActionIcon = lazy(() => import('@/components/ActionIcon'))
+const ActionIcon = lazy(() => import('@/components/common/ActionIcon'))
 
 function EditView({
   item,
@@ -17,13 +18,20 @@ function EditView({
   visible: boolean
   close: () => void
 }) {
-  const update = () => {
-    console.log(item)
+  const nameRef = useRef<HTMLInputElement>(null)
+
+  const update = useExerciseStore(({ update }) => update)
+  const remove = useExerciseStore(({ remove }) => remove)
+
+  const handleUpdate = () => {
+    const name = nameRef?.current?.value ?? item.name
+    update({ ...item, name })
+
     close()
   }
 
-  const remove = () => {
-    console.log(item)
+  const handleRemove = () => {
+    remove(item.id)
 
     close()
   }
@@ -38,18 +46,34 @@ function EditView({
         name={`name-${item.id}`}
         className="max-w-[170px]"
         type="text"
+        ref={nameRef}
         defaultValue={item.name}
       />
-      <ActionIcon use="delete" action={remove} />
-      <ActionIcon use="save" action={update} />
+      <ActionIcon use="delete" action={handleRemove} />
+      <ActionIcon use="save" action={handleUpdate} />
     </div>
   )
 }
 
 export default function ExerciseItem({ item }: { item: Exercise }) {
   const [editing, setEditing] = useState(false)
+  const weightRef = useRef<HTMLSelectElement>(null)
+  const repsRef = useRef<HTMLSelectElement>(null)
+  const setsRef = useRef<HTMLSelectElement>(null)
+  const update = useExerciseStore(({ update }) => update)
+
   const sync = () => {
-    console.log('Syncing...')
+    const weight = +(weightRef?.current?.value ?? item.weight)
+    const reps = +(repsRef?.current?.value ?? item.reps)
+    const sets = +(setsRef?.current?.value ?? item.sets)
+
+    const updatedItem = {
+      ...item,
+      weight,
+      reps,
+      sets,
+    }
+    update(updatedItem)
   }
 
   const toggleEditView = () => {
@@ -67,7 +91,12 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
         <EditView visible={editing} item={item} close={toggleEditView} />
         <ActionIcon use="edit" action={toggleEditView} />
         <div>
-          <select name="weights" id="weights" defaultValue={item.weight}>
+          <select
+            name="weights"
+            id="weights"
+            defaultValue={item.weight}
+            ref={weightRef}
+          >
             {WEIGHTS.map((v) => (
               <option value={v} key={'weight-' + v}>
                 {v} kg
@@ -76,7 +105,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
           </select>
         </div>
         <div className="flex items-center">
-          <select name="sets" id="sets" defaultValue={item.sets}>
+          <select name="sets" id="sets" defaultValue={item.sets} ref={setsRef}>
             {SET_OPTIONS.map((v) => (
               <option value={v} key={'reps-' + v}>
                 {v}
@@ -84,7 +113,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
             ))}
           </select>
           x
-          <select name="reps" id="reps" defaultValue={item.reps}>
+          <select name="reps" id="reps" defaultValue={item.reps} ref={repsRef}>
             {REP_OPTIONS.map((v) => (
               <option value={v} key={'reps-' + v}>
                 {v}

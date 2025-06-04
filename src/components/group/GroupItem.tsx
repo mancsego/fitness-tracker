@@ -3,7 +3,7 @@ import type { Group } from '@/types'
 import { Link } from '@tanstack/react-router'
 import { lazy, useRef, useState } from 'react'
 
-const ActionIcon = lazy(() => import('@/components/ActionIcon'))
+const ActionIcon = lazy(() => import('@/components/common/ActionIcon'))
 
 function EditView({
   item,

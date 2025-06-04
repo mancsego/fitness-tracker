@@ -1,46 +1,30 @@
-import ExerciseItem from '@/components/ExerciseItem'
-import Loading from '@/components/Loading'
-import type { Exercise } from '@/types'
+import Loading from '@/components/common/Loading'
+import ExerciseItem from '@/components/exercise/ExerciseItem'
+import { useExerciseStore } from '@/store/exercises'
 import { createFileRoute } from '@tanstack/react-router'
-import { lazy, useState } from 'react'
+import { lazy } from 'react'
 
 export const Route = createFileRoute('/group/$groupId')({
   component: ExerciseView,
   pendingComponent: Loading,
-  loader: async ({ params }) => {
-    console.log(params)
+  loader: async ({ params: { groupId } }) => {
+    const read = useExerciseStore.getState().read
+    await read(+groupId)
   },
 })
 
-const Adder = lazy(() => import('@/components/Adder'))
+const Adder = lazy(() => import('@/components/common/Adder'))
 
 function ExerciseView() {
-  const initialState = [
-    {
-      id: 123,
-      group_id: 1,
-      name: 'Falafel',
-      weight: 12,
-      sets: 2,
-      reps: 10,
-    },
-  ]
-  const [state, setState] = useState<Exercise[]>(initialState)
+  const entities = useExerciseStore(({ exercises }) => exercises)
+  const create = useExerciseStore(({ create }) => create)
 
-  const exercises = state.map((item) => (
+  const exercises = entities.map((item) => (
     <ExerciseItem item={item} key={item.id} />
   ))
 
   const handler = (name: string) => {
-    const ex = {
-      id: Math.floor(Math.random() * 100),
-      name,
-      group_id: 1,
-      weight: 0,
-      sets: 0,
-      reps: 0,
-    }
-    setState((prev) => [...prev, ex])
+    create(name)
   }
 
   return (

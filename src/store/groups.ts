@@ -2,7 +2,6 @@ import type { Group } from '@/types'
 import { create } from 'zustand'
 
 type GroupStore = {
-  loaded: boolean
   groups: Group[]
   create: (name: string) => Promise<void>
   read: () => Promise<void>
@@ -11,15 +10,11 @@ type GroupStore = {
 }
 
 const useGroupStore = create<GroupStore>((set) => ({
-  loaded: false,
   groups: [],
   create: async (name: string) => {
     set((state) => ({ groups: [...state.groups, { name, id: 123445 }] }))
   },
   read: async () => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 3000)
-    })
     set({
       groups: [
         {
@@ -31,7 +26,6 @@ const useGroupStore = create<GroupStore>((set) => ({
           name: 'Falafel group2',
         },
       ],
-      loaded: true,
     })
   },
   update: async (id: number, name: string) => {
