@@ -12,23 +12,21 @@ type GroupStore = {
 const useGroupStore = create<GroupStore>((set) => ({
   groups: [],
   create: async (name: string) => {
-    set((state) => ({ groups: [...state.groups, { name, id: 123445 }] }))
+    const { data } = await (await table).insert({ name }).select()
+    const record = data?.[0]
+
+    if (!record) return
+
+    set((state) => ({ groups: [...state.groups, record] }))
   },
   read: async () => {
-    set({
-      groups: [
-        {
-          id: 123,
-          name: 'Falafel group',
-        },
-        {
-          id: 1234,
-          name: 'Falafel group2',
-        },
-      ],
-    })
+    const { data } = await (await table).select()
+    set({ groups: data ?? [] })
   },
   update: async (id: number, name: string) => {
+    const { status } = await (await table).update({ name }).eq('id', id)
+    if (status !== 204) return
+
     set((state) => ({
       groups: state.groups.map((item) => {
         if (item.id !== id) return item
@@ -38,10 +36,18 @@ const useGroupStore = create<GroupStore>((set) => ({
     }))
   },
   remove: async (id: number) => {
+    const { status } = await (await table).delete().eq('id', id)
+    if (status !== 204) return
+
     set((state) => ({
       groups: state.groups.filter((item) => item.id !== id),
     }))
   },
 }))
+
+const table = (async () => {
+  const { db } = await import('@/util/database')
+  return db.from('groups')
+})()
 
 export { useGroupStore }
