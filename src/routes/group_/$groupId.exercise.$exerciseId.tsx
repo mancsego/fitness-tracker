@@ -1,8 +1,9 @@
 import Loading from '@/components/common/Loading'
 import { useExerciseStore } from '@/store/exercises'
 import { useHistoryStore } from '@/store/history'
-import type { HistoryEntry } from '@/types'
+import type { Exercise, HistoryEntry } from '@/types'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/group_/$groupId/exercise/$exerciseId')({
   pendingComponent: Loading,
@@ -31,13 +32,19 @@ function ExerciseHistory() {
   const { groupId, exerciseId } = Route.useParams()
   const eId = +exerciseId
   const entries = useHistoryStore(({ history }) => history)
-  const exercise = useExerciseStore(({ exercises }) =>
-    exercises.find(({ id }) => eId === id),
-  )
+  const findExercise = useExerciseStore(({ findOne }) => findOne)
+
+  const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
 
   const history = entries.map((entry) => (
     <HistoryItem entry={entry} key={`he-${entry.id}`} />
   ))
+
+  useEffect(() => {
+    ;(async () => {
+      setExercise(await findExercise(eId))
+    })()
+  }, [setExercise, findExercise, eId])
 
   if (!exercise)
     return (

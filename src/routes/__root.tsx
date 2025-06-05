@@ -19,7 +19,6 @@ function App() {
         <Outlet />
         <TanStackRouterDevtools />
       </main>
-      <footer className="flex justify-center">Footer</footer>
     </>
   )
 }

@@ -7,11 +7,12 @@ type ExerciseStore = {
   exercises: Exercise[]
   create: (name: string) => Promise<void>
   read: (groupId: number) => Promise<void>
+  findOne: (id: number) => Promise<Exercise | undefined>
   update: (item: Exercise) => Promise<void>
   remove: (id: number) => Promise<void>
 }
 
-const useExerciseStore = create<ExerciseStore>((set) => ({
+const useExerciseStore = create<ExerciseStore>((set, get) => ({
   exercises: [],
   create: async (name: string) => {
     const { data } = await (await table).insert({ name, group_id: 2 }).select()
@@ -25,6 +26,14 @@ const useExerciseStore = create<ExerciseStore>((set) => ({
     const { data } = await (await table).select().eq('group_id', groupId)
 
     set({ exercises: data ?? [] })
+  },
+  findOne: async (id: number) => {
+    const found = get().exercises.find((item) => item.id === id)
+    if (found) return found
+
+    const { data } = await (await table).select().eq('id', id)
+
+    return data?.[0]
   },
   update: async (item: Exercise) => {
     const { status } = await (await table).update({ ...item }).eq('id', item.id)

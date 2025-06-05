@@ -7,11 +7,12 @@ type GroupStore = {
   groups: Group[]
   create: (name: string) => Promise<void>
   read: () => Promise<void>
+  findOne: (id: number) => Promise<Group | undefined>
   update: (id: number, name: string) => Promise<void>
   remove: (id: number) => Promise<void>
 }
 
-const useGroupStore = create<GroupStore>((set) => ({
+const useGroupStore = create<GroupStore>((set, get) => ({
   groups: [],
   create: async (name: string) => {
     const { data } = await (await table).insert({ name }).select()
@@ -24,6 +25,14 @@ const useGroupStore = create<GroupStore>((set) => ({
   read: async () => {
     const { data } = await (await table).select()
     set({ groups: data ?? [] })
+  },
+  findOne: async (id: number) => {
+    const found = get().groups.find((item) => item.id === id)
+    if (found) return found
+
+    const { data } = await (await table).select().eq('id', id)
+
+    return data?.[0]
   },
   update: async (id: number, name: string) => {
     const { status } = await (await table).update({ name }).eq('id', id)
