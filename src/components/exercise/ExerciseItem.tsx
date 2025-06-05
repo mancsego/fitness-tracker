@@ -1,6 +1,7 @@
 import { useExerciseStore } from '@/store/exercises'
+import { useHistoryStore } from '@/store/history'
 import type { Exercise } from '@/types'
-import { Link } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import { lazy, useRef, useState } from 'react'
 
 const [, ...SET_OPTIONS] = [...Array(7).keys()]
@@ -61,6 +62,8 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
   const repsRef = useRef<HTMLSelectElement>(null)
   const setsRef = useRef<HTMLSelectElement>(null)
   const update = useExerciseStore(({ update }) => update)
+  const createHistory = useHistoryStore(({ create }) => create)
+  const { groupId } = useParams({ strict: false })
 
   const sync = () => {
     const weight = +(weightRef?.current?.value ?? item.weight)
@@ -74,6 +77,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
       sets,
     }
     update(updatedItem)
+    createHistory(item)
   }
 
   const toggleEditView = () => {
@@ -83,7 +87,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     <div className="text-left mt-2">
       <Link
         to="/group/$groupId/exercise/$exerciseId"
-        params={{ groupId: '' + 1, exerciseId: '' + item.id }}
+        params={{ groupId: groupId ?? '-', exerciseId: '' + item.id }}
       >
         <div className="font-bold border-b px-3 py-2">{item.name}</div>
       </Link>

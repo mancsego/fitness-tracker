@@ -13,6 +13,7 @@ type HistoryEntry = {
   weight: number
   sets: number
   reps: number
+  created_at: string
 }
 
 type Group = {
