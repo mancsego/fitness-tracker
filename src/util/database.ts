@@ -38,34 +38,34 @@ export type Database = {
     Tables: {
       exercise_history: {
         Row: {
-          created_at: string | null
+          created_at: string
           exercise_id: number
           id: number
-          name: string | null
-          reps: number | null
-          sets: number | null
-          updated_at: string | null
-          weight: number | null
+          name: string
+          reps: number
+          sets: number
+          updated_at: string
+          weight: number
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           exercise_id: number
           id?: number
-          name?: string | null
-          reps?: number | null
-          sets?: number | null
-          updated_at?: string | null
-          weight?: number | null
+          name?: string
+          reps?: number
+          sets?: number
+          updated_at?: string
+          weight?: number
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           exercise_id?: number
           id?: number
-          name?: string | null
-          reps?: number | null
-          sets?: number | null
-          updated_at?: string | null
-          weight?: number | null
+          name?: string
+          reps?: number
+          sets?: number
+          updated_at?: string
+          weight?: number
         }
         Relationships: [
           {
@@ -79,34 +79,28 @@ export type Database = {
       }
       exercises: {
         Row: {
-          created_at: string | null
+          created_at: string
           group_id: number
           id: number
-          name: string | null
-          reps: number | null
-          sets: number | null
-          updated_at: string | null
-          weight: number | null
+          name: string
+          reps: number
+          sets: number
+          updated_at: string
+          weight: number
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           group_id: number
-          id?: number
-          name?: string | null
-          reps?: number | null
-          sets?: number | null
-          updated_at?: string | null
-          weight?: number | null
+          name: string
+          reps?: number
+          sets?: number
+          weight?: number
         }
         Update: {
-          created_at?: string | null
-          group_id?: number
-          id?: number
-          name?: string | null
-          reps?: number | null
-          sets?: number | null
-          updated_at?: string | null
-          weight?: number | null
+          name?: string
+          reps?: number
+          sets?: number
+          weight?: number
         }
         Relationships: [
           {

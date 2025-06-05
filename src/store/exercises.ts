@@ -1,4 +1,6 @@
 import type { Exercise } from '@/types'
+import type { Database } from '@/util/database'
+import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
 import { create } from 'zustand'
 
 type ExerciseStore = {
@@ -12,49 +14,53 @@ type ExerciseStore = {
 const useExerciseStore = create<ExerciseStore>((set) => ({
   exercises: [],
   create: async (name: string) => {
-    set((state) => ({
-      exercises: [
-        ...state.exercises,
-        {
-          id: Math.floor(Math.random() * 100),
-          name,
-          group_id: 1,
-          weight: 0,
-          sets: 0,
-          reps: 0,
-        },
-      ],
-    }))
+    const { data } = await (await table).insert({ name, group_id: 2 }).select()
+    const record = data?.[0]
+
+    if (!record) return
+
+    set((state) => ({ exercises: [...state.exercises, record] }))
   },
   read: async (groupId: number) => {
-    console.log(groupId)
-    set({
-      exercises: [
-        {
-          id: 123,
-          group_id: 1,
-          name: 'Falafel',
-          weight: 12,
-          sets: 2,
-          reps: 10,
-        },
-      ],
-    })
+    const { data } = await (await table).select().eq('group_id', groupId)
+
+    set({ exercises: data ?? [] })
   },
   update: async (item: Exercise) => {
-    set((state) => ({
-      exercises: state.exercises.map((i) => {
-        if (i.id !== item.id) return item
+    const { status } = await (await table).update({ ...item }).eq('id', item.id)
+    if (status !== 204) return
 
-        return item
-      }),
+    set((state) => ({
+      exercises: state.exercises.map((i) => (i.id !== item.id ? i : item)),
     }))
   },
   remove: async (id: number) => {
+    const { status } = await (await table).delete().eq('id', id)
+    if (status !== 204) return
+
     set((state) => ({
       exercises: state.exercises.filter((item) => item.id !== id),
     }))
   },
 }))
+
+const table = (() => {
+  let cache:
+    | undefined
+    | PostgrestQueryBuilder<
+        Database['public'],
+        Database['public']['Tables']['exercises'],
+        'exercises'
+      >
+
+  return (async () => {
+    if (cache) return cache
+
+    const { db } = await import('@/util/database')
+
+    cache = db.from('exercises')
+    return cache
+  })()
+})()
 
 export { useExerciseStore }

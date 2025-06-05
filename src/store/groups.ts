@@ -1,4 +1,6 @@
 import type { Group } from '@/types'
+import type { Database } from '@/util/database'
+import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
 import { create } from 'zustand'
 
 type GroupStore = {
@@ -28,11 +30,9 @@ const useGroupStore = create<GroupStore>((set) => ({
     if (status !== 204) return
 
     set((state) => ({
-      groups: state.groups.map((item) => {
-        if (item.id !== id) return item
-
-        return { id, name }
-      }),
+      groups: state.groups.map((item) =>
+        item.id !== id ? item : { id, name },
+      ),
     }))
   },
   remove: async (id: number) => {
@@ -45,9 +45,23 @@ const useGroupStore = create<GroupStore>((set) => ({
   },
 }))
 
-const table = (async () => {
-  const { db } = await import('@/util/database')
-  return db.from('groups')
+const table = (() => {
+  let cache:
+    | undefined
+    | PostgrestQueryBuilder<
+        Database['public'],
+        Database['public']['Tables']['groups'],
+        'groups'
+      >
+
+  return (async () => {
+    if (cache) return cache
+
+    const { db } = await import('@/util/database')
+
+    cache = db.from('groups')
+    return cache
+  })()
 })()
 
 export { useGroupStore }
