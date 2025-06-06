@@ -6,7 +6,7 @@ import { lazy, useRef, useState } from 'react'
 
 const [, ...SET_OPTIONS] = [...Array(7).keys()]
 const [, ...REP_OPTIONS] = [...Array(17).keys()]
-const WEIGHTS = Array.from({ length: 15 }, (_, i) => (i + 1) * 2)
+const WEIGHTS = Array.from({ length: 15 }, (_, i) => i * 2)
 
 const ActionIcon = lazy(() => import('@/components/common/ActionIcon'))
 
@@ -57,6 +57,7 @@ function EditView({
 }
 
 export default function ExerciseItem({ item }: { item: Exercise }) {
+  const [updating, setUpdating] = useState(false)
   const [editing, setEditing] = useState(false)
   const weightRef = useRef<HTMLSelectElement>(null)
   const repsRef = useRef<HTMLSelectElement>(null)
@@ -65,7 +66,8 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
   const createHistory = useHistoryStore(({ create }) => create)
   const { groupId } = useParams({ strict: false })
 
-  const sync = () => {
+  const sync = async () => {
+    setUpdating(true)
     const weight = +(weightRef?.current?.value ?? item.weight)
     const reps = +(repsRef?.current?.value ?? item.reps)
     const sets = +(setsRef?.current?.value ?? item.sets)
@@ -76,8 +78,12 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
       reps,
       sets,
     }
-    update(updatedItem)
-    createHistory(item)
+    await update(updatedItem)
+    await createHistory(item)
+
+    setTimeout(() => {
+      setUpdating(false)
+    }, 1000)
   }
 
   const toggleEditView = () => {
@@ -97,7 +103,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
         <div>
           <select
             name="weights"
-            id="weights"
+            id={`${item.id}-weights`}
             defaultValue={item.weight}
             ref={weightRef}
           >
@@ -109,7 +115,12 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
           </select>
         </div>
         <div className="flex items-center">
-          <select name="sets" id="sets" defaultValue={item.sets} ref={setsRef}>
+          <select
+            name="sets"
+            id={`${item.id}-sets`}
+            defaultValue={item.sets}
+            ref={setsRef}
+          >
             {SET_OPTIONS.map((v) => (
               <option value={v} key={'reps-' + v}>
                 {v}
@@ -117,7 +128,12 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
             ))}
           </select>
           x
-          <select name="reps" id="reps" defaultValue={item.reps} ref={repsRef}>
+          <select
+            name="reps"
+            id={`${item.id}-reps`}
+            defaultValue={item.reps}
+            ref={repsRef}
+          >
             {REP_OPTIONS.map((v) => (
               <option value={v} key={'reps-' + v}>
                 {v}
@@ -125,7 +141,11 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
             ))}
           </select>
         </div>
-        <ActionIcon use="sync" action={sync} />
+        <ActionIcon
+          use="sync"
+          action={sync}
+          className={updating ? 'animate-spin' : ''}
+        />
       </div>
     </div>
   )

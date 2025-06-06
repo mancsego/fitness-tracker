@@ -49,7 +49,7 @@ function ExerciseView() {
 
   return (
     <div className="px-2 text-center">
-      <h1>Exercises</h1>
+      <h2>Exercises of {group.name}</h2>
       <Adder handler={handler} placeholder="Type name..." />
       <div className="flex flex-col mb-1">{exercises}</div>
     </div>

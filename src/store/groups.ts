@@ -1,6 +1,5 @@
 import type { Group } from '@/types'
-import type { Database } from '@/util/backend'
-import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { create } from 'zustand'
 
 type GroupStore = {
@@ -15,7 +14,7 @@ type GroupStore = {
 const useGroupStore = create<GroupStore>((set, get) => ({
   groups: [],
   create: async (name: string) => {
-    const { data } = await (await table).insert({ name }).select()
+    const { data } = await (await getTable()).insert({ name }).select()
     const record = data?.[0]
 
     if (!record) return
@@ -23,19 +22,21 @@ const useGroupStore = create<GroupStore>((set, get) => ({
     set((state) => ({ groups: [...state.groups, record] }))
   },
   read: async () => {
-    const { data } = await (await table).select()
+    if (get().groups.length) return
+
+    const { data } = await (await getTable()).select()
     set({ groups: data ?? [] })
   },
   findOne: async (id: number) => {
     const found = get().groups.find((item) => item.id === id)
     if (found) return found
 
-    const { data } = await (await table).select().eq('id', id)
+    const { data } = await (await getTable()).select().eq('id', id)
 
     return data?.[0]
   },
   update: async (id: number, name: string) => {
-    const { status } = await (await table).update({ name }).eq('id', id)
+    const { status } = await (await getTable()).update({ name }).eq('id', id)
     if (status !== 204) return
 
     set((state) => ({
@@ -45,7 +46,7 @@ const useGroupStore = create<GroupStore>((set, get) => ({
     }))
   },
   remove: async (id: number) => {
-    const { status } = await (await table).delete().eq('id', id)
+    const { status } = await (await getTable()).delete().eq('id', id)
     if (status !== 204) return
 
     set((state) => ({
@@ -54,23 +55,18 @@ const useGroupStore = create<GroupStore>((set, get) => ({
   },
 }))
 
-const table = (() => {
-  let cache:
-    | undefined
-    | PostgrestQueryBuilder<
-        Database['public'],
-        Database['public']['Tables']['groups'],
-        'groups'
-      >
+const getTable = (() => {
+  const table = 'groups'
+  let cache: undefined | SupabaseClient
 
-  return (async () => {
-    if (cache) return cache
+  return async () => {
+    if (cache) return cache.from(table)
 
     const { backend } = await import('@/util/backend')
 
-    cache = backend.from('groups')
-    return cache
-  })()
+    cache = backend
+    return cache.from(table)
+  }
 })()
 
 export { useGroupStore }

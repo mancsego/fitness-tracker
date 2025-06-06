@@ -1,11 +1,16 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #242424;
-  --color-secondary: #8a909e;
+  --color-frog: #fcf1f5;
+  --color-primary: #7e1b3c;
+  --color-secondary: #e06f95;
+  --color-text: #3c1152;
 }
 
 @layer base {
+  body {
+    @apply bg-frog text-text;
+  }
   h1 {
     @apply text-2xl;
   }
@@ -17,11 +22,11 @@
 @layer components {
   input,
   select {
-    @apply p-2 border mx-1 focus:outline-none focus:border-primary;
+    @apply p-2 bg-white border border-primary mx-1 focus:outline-none focus:border-primary;
   }
 
   .link {
-    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out;
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary;
   }
 
   .btn {
@@ -29,6 +34,6 @@
   }
 
   .btn-primary {
-    @apply bg-primary border-primary text-white hover:bg-secondary active:bg-secondary;
+    @apply bg-primary border-primary text-white hover:bg-secondary hover:border-secondary active:bg-secondary;
   }
 }

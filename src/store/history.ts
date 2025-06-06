@@ -1,6 +1,5 @@
 import type { Exercise, HistoryEntry } from '@/types'
-import type { Database } from '@/util/backend'
-import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { create } from 'zustand'
 
 type HistoryStore = {
@@ -13,7 +12,7 @@ const useHistoryStore = create<HistoryStore>((set) => ({
   history: [],
   create: async (item: Exercise) => {
     const { data } = await (
-      await table
+      await getTable()
     )
       .insert({
         exercise_id: item.id,
@@ -29,29 +28,26 @@ const useHistoryStore = create<HistoryStore>((set) => ({
     set((state) => ({ history: [...state.history, record] }))
   },
   read: async (exercise: number) => {
-    const { data } = await (await table).select().eq('exercise_id', exercise)
+    const { data } = await (await getTable())
+      .select()
+      .eq('exercise_id', exercise)
 
     set({ history: data ?? [] })
   },
 }))
 
-const table = (() => {
-  let cache:
-    | undefined
-    | PostgrestQueryBuilder<
-        Database['public'],
-        Database['public']['Tables']['exercise_history'],
-        'exercise_history'
-      >
+const getTable = (() => {
+  const table = 'exercise_history'
+  let cache: undefined | SupabaseClient
 
-  return (async () => {
-    if (cache) return cache
+  return async () => {
+    if (cache) return cache.from(table)
 
     const { backend } = await import('@/util/backend')
 
-    cache = backend.from('exercise_history')
-    return cache
-  })()
+    cache = backend
+    return cache.from(table)
+  }
 })()
 
 export { useHistoryStore }

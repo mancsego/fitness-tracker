@@ -1,9 +1,9 @@
 import type { Exercise } from '@/types'
-import type { Database } from '@/util/backend'
-import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { create } from 'zustand'
 
 type ExerciseStore = {
+  groupId: number
   exercises: Exercise[]
   create: (name: string) => Promise<void>
   read: (groupId: number) => Promise<void>
@@ -13,9 +13,12 @@ type ExerciseStore = {
 }
 
 const useExerciseStore = create<ExerciseStore>((set, get) => ({
+  groupId: 0,
   exercises: [],
   create: async (name: string) => {
-    const { data } = await (await table).insert({ name, group_id: 2 }).select()
+    const { data } = await (await getTable())
+      .insert({ name, group_id: 2 })
+      .select()
     const record = data?.[0]
 
     if (!record) return
@@ -23,20 +26,25 @@ const useExerciseStore = create<ExerciseStore>((set, get) => ({
     set((state) => ({ exercises: [...state.exercises, record] }))
   },
   read: async (groupId: number) => {
-    const { data } = await (await table).select().eq('group_id', groupId)
+    const state = get()
 
+    if (state.groupId === groupId && state.exercises.length) return
+
+    const { data } = await (await getTable()).select().eq('group_id', groupId)
     set({ exercises: data ?? [] })
   },
   findOne: async (id: number) => {
     const found = get().exercises.find((item) => item.id === id)
     if (found) return found
 
-    const { data } = await (await table).select().eq('id', id)
+    const { data } = await (await getTable()).select().eq('id', id)
 
     return data?.[0]
   },
   update: async (item: Exercise) => {
-    const { status } = await (await table).update({ ...item }).eq('id', item.id)
+    const { status } = await (await getTable())
+      .update({ ...item })
+      .eq('id', item.id)
     if (status !== 204) return
 
     set((state) => ({
@@ -44,7 +52,7 @@ const useExerciseStore = create<ExerciseStore>((set, get) => ({
     }))
   },
   remove: async (id: number) => {
-    const { status } = await (await table).delete().eq('id', id)
+    const { status } = await (await getTable()).delete().eq('id', id)
     if (status !== 204) return
 
     set((state) => ({
@@ -53,23 +61,18 @@ const useExerciseStore = create<ExerciseStore>((set, get) => ({
   },
 }))
 
-const table = (() => {
-  let cache:
-    | undefined
-    | PostgrestQueryBuilder<
-        Database['public'],
-        Database['public']['Tables']['exercises'],
-        'exercises'
-      >
+const getTable = (() => {
+  const table = 'exercises'
+  let cache: undefined | SupabaseClient
 
-  return (async () => {
-    if (cache) return cache
+  return async () => {
+    if (cache) return cache.from(table)
 
     const { backend } = await import('@/util/backend')
 
-    cache = backend.from('exercises')
-    return cache
-  })()
+    cache = backend
+    return cache.from(table)
+  }
 })()
 
 export { useExerciseStore }
