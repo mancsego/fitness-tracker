@@ -8,17 +8,17 @@ export const Route = createRootRoute({
 
 function App() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <IconSet />
       <header className="flex justify-center items-center h-10">
         <Link to="/" className="[&.active]:hidden">
           <span>Home</span>
         </Link>
       </header>
-      <main className="bg-slate-50 py-5">
+      <main className="grow flex flex-col">
         <Outlet />
         <TanStackRouterDevtools />
       </main>
-    </>
+    </div>
   )
 }

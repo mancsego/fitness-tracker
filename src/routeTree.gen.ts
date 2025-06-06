@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as GroupGroupIdImport } from './routes/group/$groupId'
 import { Route as GroupGroupIdExerciseExerciseIdImport } from './routes/group_/$groupId.exercise.$exerciseId'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -47,6 +54,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/group/$groupId': {
       id: '/group/$groupId'
       path: '/group/$groupId'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
 }
@@ -81,18 +97,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group_/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/group/$groupId' | '/group/$groupId/exercise/$exerciseId'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/group/$groupId'
+    | '/group/$groupId/exercise/$exerciseId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/group/$groupId' | '/group/$groupId/exercise/$exerciseId'
+  to:
+    | '/'
+    | '/login'
+    | '/group/$groupId'
+    | '/group/$groupId/exercise/$exerciseId'
   id:
     | '__root__'
     | '/'
+    | '/login'
     | '/group/$groupId'
     | '/group_/$groupId/exercise/$exerciseId'
   fileRoutesById: FileRoutesById
@@ -100,12 +126,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
   GroupGroupIdRoute: typeof GroupGroupIdRoute
   GroupGroupIdExerciseExerciseIdRoute: typeof GroupGroupIdExerciseExerciseIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
   GroupGroupIdRoute: GroupGroupIdRoute,
   GroupGroupIdExerciseExerciseIdRoute: GroupGroupIdExerciseExerciseIdRoute,
 }
@@ -121,12 +149,16 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/login",
         "/group/$groupId",
         "/group_/$groupId/exercise/$exerciseId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/group/$groupId": {
       "filePath": "group/$groupId.tsx"

@@ -1,5 +1,6 @@
 import Loading from '@/components/common/Loading'
 import ExerciseItem from '@/components/exercise/ExerciseItem'
+import { startSession } from '@/store/auth'
 import { useExerciseStore } from '@/store/exercises'
 import { useGroupStore } from '@/store/groups'
 import type { Group } from '@/types'
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/group/$groupId')({
   component: ExerciseView,
   pendingComponent: Loading,
   loader: async ({ params: { groupId } }) => {
+    await startSession()
     const read = useExerciseStore.getState().read
     await read(+groupId)
   },

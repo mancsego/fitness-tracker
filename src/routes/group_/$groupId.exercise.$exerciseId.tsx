@@ -1,4 +1,5 @@
 import Loading from '@/components/common/Loading'
+import { startSession } from '@/store/auth'
 import { useExerciseStore } from '@/store/exercises'
 import { useHistoryStore } from '@/store/history'
 import type { Exercise, HistoryEntry } from '@/types'
@@ -9,6 +10,7 @@ export const Route = createFileRoute('/group_/$groupId/exercise/$exerciseId')({
   pendingComponent: Loading,
   component: () => <ExerciseHistory />,
   loader: async ({ params: { exerciseId } }) => {
+    await startSession()
     const read = useHistoryStore.getState().read
     await read(+exerciseId)
   },
@@ -16,14 +18,16 @@ export const Route = createFileRoute('/group_/$groupId/exercise/$exerciseId')({
 
 function HistoryItem({ entry }: { entry: HistoryEntry }) {
   return (
-    <div className="border-b">
-      <div className="px-2 py-3 flex justify-around">
+    <div className="border-b pt-1 pb-3 px-2">
+      <div className="text-sm muted">
+        {new Date(entry.created_at).toLocaleDateString()}
+      </div>
+      <div className="flex justify-around">
         <span>{entry.weight} kg</span>
         <span>
           {entry.reps} x {entry.sets}
         </span>
       </div>
-      <div className="text-sm muted">{entry.created_at}</div>
     </div>
   )
 }
@@ -59,9 +63,9 @@ function ExerciseHistory() {
   return (
     <div className="text-center">
       <Link to="/group/$groupId" params={{ groupId: '' + exercise.group_id }}>
-        <h1 className="border-b px-3 py-2">
+        <h2 className="border-b px-3 py-2">
           History for: <span className="font-bold">{exercise.name}</span>
-        </h1>
+        </h2>
       </Link>
 
       <div>{history}</div>

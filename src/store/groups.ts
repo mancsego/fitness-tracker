@@ -1,5 +1,5 @@
 import type { Group } from '@/types'
-import type { Database } from '@/util/database'
+import type { Database } from '@/util/backend'
 import { PostgrestQueryBuilder } from '@supabase/postgrest-js'
 import { create } from 'zustand'
 
@@ -66,9 +66,9 @@ const table = (() => {
   return (async () => {
     if (cache) return cache
 
-    const { db } = await import('@/util/database')
+    const { backend } = await import('@/util/backend')
 
-    cache = db.from('groups')
+    cache = backend.from('groups')
     return cache
   })()
 })()

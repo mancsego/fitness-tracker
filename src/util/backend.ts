@@ -254,9 +254,9 @@ export const Constants = {
   },
 } as const
 
-const db = createClient<Database>(
+const backend = createClient<Database>(
   'https://emedbefrrvxjuawkxrdd.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtZWRiZWZycnZ4anVhd2t4cmRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NjM2MjgsImV4cCI6MjA2NDQzOTYyOH0.IzobYnHfByHi0pBbakiDRIXdY_KvWuNL_ACeLVqLa3o',
 )
 
-export { db }
+export { backend }

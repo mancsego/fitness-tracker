@@ -1,5 +1,6 @@
 import Loading from '@/components/common/Loading'
 import GroupItem from '@/components/group/GroupItem'
+import { startSession } from '@/store/auth'
 import { useGroupStore } from '@/store/groups'
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy } from 'react'
@@ -7,6 +8,7 @@ import { lazy } from 'react'
 export const Route = createFileRoute('/')({
   component: GroupView,
   loader: async () => {
+    await startSession()
     const read = useGroupStore.getState().read
     await read()
   },
