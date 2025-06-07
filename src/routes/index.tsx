@@ -30,10 +30,14 @@ function GroupView() {
   }
 
   return (
-    <div className="px-2 text-center">
-      <h1>Groups</h1>
-      <Adder handler={handler} placeholder="Type name..." />
-      <div className="flex flex-col mt-2">{exercises}</div>
-    </div>
+    <>
+      <header className="section-highlight">
+        <h1>Groups</h1>
+      </header>
+      <main className="px-2 text-center">
+        <Adder handler={handler} placeholder="Type name..." />
+        <div className="flex flex-col mt-2">{exercises}</div>
+      </main>
+    </>
   )
 }

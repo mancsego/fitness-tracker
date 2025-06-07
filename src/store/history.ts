@@ -3,12 +3,14 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { create } from 'zustand'
 
 type HistoryStore = {
+  exercise: number
   history: HistoryEntry[]
   create: (item: Exercise) => Promise<void>
   read: (groupId: number) => Promise<void>
 }
 
-const useHistoryStore = create<HistoryStore>((set) => ({
+const useHistoryStore = create<HistoryStore>((set, get) => ({
+  exercise: 0,
   history: [],
   create: async (item: Exercise) => {
     const { data } = await (
@@ -28,11 +30,14 @@ const useHistoryStore = create<HistoryStore>((set) => ({
     set((state) => ({ history: [...state.history, record] }))
   },
   read: async (exercise: number) => {
+    const state = get()
+    if (state.exercise === exercise && state.history.length) return
+
     const { data } = await (await getTable())
       .select()
       .eq('exercise_id', exercise)
 
-    set({ history: data ?? [] })
+    set({ history: data ?? [], exercise })
   },
 }))
 

@@ -90,14 +90,15 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left mt-2">
+    <div className="text-left my-2 flex flex-col border-l border-accent">
       <Link
+        className="link"
         to="/group/$groupId/exercise/$exerciseId"
         params={{ groupId: groupId ?? '-', exerciseId: '' + item.id }}
       >
-        <div className="font-bold border-b px-3 py-2">{item.name}</div>
+        {item.name}
       </Link>
-      <div className="flex flex-1 justify-between items-center py-2 overflow-hidden">
+      <div className="flex flex-1 justify-between items-center pt-2 overflow-hidden">
         <EditView visible={editing} item={item} close={toggleEditView} />
         <ActionIcon use="edit" action={toggleEditView} />
         <div>
@@ -127,7 +128,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
               </option>
             ))}
           </select>
-          x
+          <span className="multiplier mr-1">x</span>
           <select
             name="reps"
             id={`${item.id}-reps`}

@@ -1,32 +1,42 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-frog: #fcf1f5;
-  --color-primary: #7e1b3c;
-  --color-secondary: #e06f95;
-  --color-text: #3c1152;
+  --color-background: #f5f9fa;
+  --color-text: #2b2d42;
+  --color-primary: #2b2d42;
+  --color-secondary: #8d99ae;
+  --color-accent-secondary: #d9d8d7;
+  --color-accent: #ef233c;
 }
 
 @layer base {
   body {
-    @apply bg-frog text-text;
+    @apply bg-background text-text text-sm uppercase;
   }
   h1 {
-    @apply text-2xl;
+    @apply text-xl;
   }
   h2 {
-    @apply text-xl;
+    @apply text-lg;
   }
 }
 
 @layer components {
   input,
   select {
-    @apply p-2 bg-white border border-primary mx-1 focus:outline-none focus:border-primary;
+    @apply p-2 bg-white border border-accent-secondary mr-1 focus:outline-none focus:border-primary;
+  }
+
+  .focusable {
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out;
+  }
+
+  .multiplier {
+    @apply lowercase px-1;
   }
 
   .link {
-    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary;
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary tracking-wide font-bold border-accent border-t p-2 w-full;
   }
 
   .btn {
@@ -34,6 +44,10 @@
   }
 
   .btn-primary {
-    @apply bg-primary border-primary text-white hover:bg-secondary hover:border-secondary active:bg-secondary;
+    @apply bg-text border-text text-white hover:bg-secondary hover:border-secondary active:bg-secondary active:border-secondary;
+  }
+
+  .section-highlight {
+    @apply bg-white border border-accent-secondary tracking-wide text-left py-3 px-3 flex items-center;
   }
 }

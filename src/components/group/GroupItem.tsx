@@ -56,10 +56,18 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex items-center py-2">
+    <div className="flex items-center py-3">
       <EditView item={group} visible={editing} close={toggleEditView} />
-      <ActionIcon use="edit" action={toggleEditView} />
-      <Link to="/group/$groupId" params={{ groupId: '' + group.id }}>
+      <ActionIcon
+        use="edit"
+        action={toggleEditView}
+        className={`${editing ? 'hidden' : 'border-t border-l border-accent'}`}
+      />
+      <Link
+        to="/group/$groupId"
+        className={`${editing ? 'hidden' : 'link'}`}
+        params={{ groupId: '' + group.id }}
+      >
         {group.name}
       </Link>
     </div>
