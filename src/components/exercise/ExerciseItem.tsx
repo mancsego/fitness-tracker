@@ -90,7 +90,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col border-l-2 border-accent">
+    <div className="text-left my-2 flex flex-col border-l-2 border-primary-accent rounded-2xl">
       <Link
         className="link"
         to="/group/$groupId/exercise/$exerciseId"

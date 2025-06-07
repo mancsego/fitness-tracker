@@ -1,17 +1,16 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: #f5f9fa;
-  --color-text: #2b2d42;
-  --color-primary: #2b2d42;
-  --color-secondary: #8d99ae;
-  --color-accent-secondary: #d9d8d7;
-  --color-accent: #ef233c;
+  --color-background: #e0f7fa;
+  --color-primary: #00695c;
+  --color-primary-accent: #ffb300;
+  --color-secondary: #f57f17;
+  --color-secondary-accent: #b2ebf2;
 }
 
 @layer base {
   body {
-    @apply bg-background text-text text-sm uppercase;
+    @apply bg-background text-primary text-sm uppercase;
   }
   h1 {
     @apply text-xl;
@@ -24,7 +23,7 @@
 @layer components {
   input,
   select {
-    @apply p-2 bg-white border border-accent-secondary mr-1 focus:outline-none focus:border-primary;
+    @apply p-2 bg-white border border-secondary-accent mr-1 focus:outline-none focus:border-primary;
   }
 
   .focusable {
@@ -36,18 +35,22 @@
   }
 
   .link {
-    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary tracking-wide font-bold border-accent border-t-2 p-2 w-full;
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary/80 underline tracking-wide font-bold rounded-2xl border-primary-accent border-t-2 p-2 w-full;
   }
 
   .btn {
-    @apply py-2 px-3 border border-primary cursor-pointer w-full;
+    @apply py-2 px-3 rounded-xl cursor-pointer w-full;
   }
 
   .btn-primary {
-    @apply bg-text border-text text-white hover:bg-secondary hover:border-secondary active:bg-secondary active:border-secondary;
+    @apply bg-primary-accent text-primary border-primary-accent hover:bg-primary-accent/75 hover:border-primary-accent/75 active:bg-primary-accent/75 active:border-primary-accent/75;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-accent text-primary border-primary hover:bg-secondary-accent/75 hover:border-secondary-accent/75 active:bg-secondary-accent/75 active:border-secondary-accent/75;
   }
 
   .section-highlight {
-    @apply bg-white border border-accent-secondary tracking-wide text-left py-3 px-3 flex items-center;
+    @apply bg-white border border-secondary-accent tracking-wide text-left py-3 px-3 flex items-center;
   }
 }
