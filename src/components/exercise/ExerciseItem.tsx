@@ -41,7 +41,7 @@ function EditView({
 
   return (
     <div className="min-w-full flex">
-      <ActionIcon use="close" action={close} />
+      <ActionIcon use="close" action={close} className="mr-2" />
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
@@ -90,7 +90,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col border-l border-accent">
+    <div className="text-left my-2 flex flex-col border-l-2 border-accent">
       <Link
         className="link"
         to="/group/$groupId/exercise/$exerciseId"

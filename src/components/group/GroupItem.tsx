@@ -61,7 +61,7 @@ export default function GroupItem({ group }: { group: Group }) {
       <ActionIcon
         use="edit"
         action={toggleEditView}
-        className={`${editing ? 'hidden' : 'border-t border-l border-accent'}`}
+        className={`${editing ? 'hidden' : 'border-t-2 border-l-2 border-accent'}`}
       />
       <Link
         to="/group/$groupId"

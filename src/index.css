@@ -36,7 +36,7 @@
   }
 
   .link {
-    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary tracking-wide font-bold border-accent border-t p-2 w-full;
+    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary tracking-wide font-bold border-accent border-t-2 p-2 w-full;
   }
 
   .btn {
