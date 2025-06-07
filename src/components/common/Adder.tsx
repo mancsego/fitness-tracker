@@ -28,7 +28,7 @@ export default function Adder({
         ref={name}
         placeholder={placeholder}
       />
-      <button className="btn btn-primary" onClick={handle}>
+      <button className="btn btn-primary font-bold" onClick={handle}>
         +
       </button>
     </div>

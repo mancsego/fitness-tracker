@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-primary text-sm uppercase;
+    @apply bg-background text-primary text-sm tracking-widest;
   }
   h1 {
     @apply text-xl;
@@ -23,7 +23,7 @@
 @layer components {
   input,
   select {
-    @apply p-2 bg-white border border-secondary-accent mr-1 focus:outline-none focus:border-primary;
+    @apply p-2 bg-white border rounded-2xl border-secondary-accent mr-1 focus:outline-none focus:border-primary;
   }
 
   .focusable {
@@ -34,8 +34,16 @@
     @apply lowercase px-1;
   }
 
+  .pill {
+    @apply border border-primary rounded-4xl p-1 text-xs cursor-pointer;
+  }
+
   .link {
-    @apply cursor-pointer hover:scale-110 transition duration-300 ease-in-out text-primary/80 underline tracking-wide font-bold rounded-2xl border-primary-accent border-t-2 p-2 w-full;
+    @apply cursor-pointer hover:underline transition duration-300 ease-in-out text-primary/80 tracking-wide font-bold p-2 w-full;
+  }
+
+  .card {
+    @apply bg-white border-l-2 border-t-2 border-primary-accent rounded-2xl px-2;
   }
 
   .btn {
@@ -43,7 +51,7 @@
   }
 
   .btn-primary {
-    @apply bg-primary-accent text-primary border-primary-accent hover:bg-primary-accent/75 hover:border-primary-accent/75 active:bg-primary-accent/75 active:border-primary-accent/75;
+    @apply bg-primary-accent/80 text-primary border-primary-accent hover:bg-primary-accent/75 hover:border-primary-accent/75 active:bg-primary-accent/75 active:border-primary-accent/75;
   }
 
   .btn-secondary {
@@ -51,6 +59,6 @@
   }
 
   .section-highlight {
-    @apply bg-white border border-secondary-accent tracking-wide text-left py-3 px-3 flex items-center;
+    @apply bg-white border border-secondary-accent tracking-widest text-left py-3 px-3 flex items-center uppercase font-semibold;
   }
 }

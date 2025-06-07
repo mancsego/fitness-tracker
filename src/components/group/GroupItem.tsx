@@ -56,7 +56,7 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex items-center border-l link py-4 mb-2">
+    <div className="flex items-center py-4 mb-2 card min-h-[72px]">
       <EditView item={group} visible={editing} close={toggleEditView} />
       <ActionIcon
         use="edit"

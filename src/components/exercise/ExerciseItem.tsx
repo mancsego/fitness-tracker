@@ -41,16 +41,15 @@ function EditView({
 
   return (
     <div className="min-w-full flex">
-      <ActionIcon use="close" action={close} className="mr-2" />
+      <ActionIcon use="delete" action={handleRemove} />
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
-        className="max-w-[170px]"
+        className="grow"
         type="text"
         ref={nameRef}
         defaultValue={item.name}
       />
-      <ActionIcon use="delete" action={handleRemove} />
       <ActionIcon use="save" action={handleUpdate} />
     </div>
   )
@@ -90,17 +89,22 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col border-l-2 border-primary-accent rounded-2xl">
-      <Link
-        className="link"
-        to="/group/$groupId/exercise/$exerciseId"
-        params={{ groupId: groupId ?? '-', exerciseId: '' + item.id }}
-      >
-        {item.name}
-      </Link>
-      <div className="flex flex-1 justify-between items-center pt-2 overflow-hidden">
+    <div className="text-left my-2 flex flex-col min-h-[98px] card">
+      <div className="flex items-center justify-between">
+        <Link
+          to="/group/$groupId/exercise/$exerciseId"
+          params={{ groupId: groupId ?? '-', exerciseId: '' + item.id }}
+          className="link"
+        >
+          {item.name}
+        </Link>
+        <button className="pill" onClick={toggleEditView}>
+          edit
+        </button>
+      </div>
+
+      <div className="flex flex-1 justify-between items-center py-2 overflow-hidden">
         <EditView visible={editing} item={item} close={toggleEditView} />
-        <ActionIcon use="edit" action={toggleEditView} />
         <div>
           <select
             name="weights"
