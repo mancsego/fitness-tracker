@@ -34,7 +34,6 @@ function EditView({
 
   return (
     <div className="min-w-full flex">
-      <ActionIcon use="close" action={close} />
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
@@ -45,6 +44,7 @@ function EditView({
       />
       <ActionIcon use="delete" action={handleRemove} />
       <ActionIcon use="save" action={handleUpdate} />
+      <ActionIcon use="close" action={close} />
     </div>
   )
 }
@@ -56,13 +56,7 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex items-center py-4 mb-2 card min-h-[72px]">
-      <EditView item={group} visible={editing} close={toggleEditView} />
-      <ActionIcon
-        use="edit"
-        action={toggleEditView}
-        className={`${editing ? 'hidden' : ''}`}
-      />
+    <div className="flex justify-between items-center  py-4 mb-2 card min-h-[72px]">
       <Link
         to="/group/$groupId"
         className={`${editing ? 'hidden' : ''}`}
@@ -70,6 +64,13 @@ export default function GroupItem({ group }: { group: Group }) {
       >
         {group.name}
       </Link>
+      <EditView item={group} visible={editing} close={toggleEditView} />
+      <button
+        className={`${editing ? 'hidden' : 'pill'}`}
+        onClick={toggleEditView}
+      >
+        edit
+      </button>
     </div>
   )
 }

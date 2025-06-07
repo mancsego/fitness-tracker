@@ -35,7 +35,7 @@
   }
 
   .pill {
-    @apply border border-primary rounded-4xl p-1 text-xs cursor-pointer;
+    @apply border border-secondary-accent bg-secondary-accent text-primary rounded-4xl px-2 py-1 text-xs cursor-pointer;
   }
 
   .link {
