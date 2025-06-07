@@ -38,11 +38,10 @@ function HistoryItem({ entry }: { entry: HistoryEntry }) {
 
 function ExerciseHistory() {
   const { groupId, exerciseId } = Route.useParams()
-  const eId = +exerciseId
   const entries = useHistoryStore(({ history }) => history)
   const findExercise = useExerciseStore(({ findOne }) => findOne)
 
-  const [exercise, setExercise] = useState<Exercise | undefined>(undefined)
+  const [exercise, setExercise] = useState<Exercise | null | undefined>(null)
 
   const history = entries.map((entry) => (
     <HistoryItem entry={entry} key={`he-${entry.id}`} />
@@ -50,15 +49,15 @@ function ExerciseHistory() {
 
   useEffect(() => {
     ;(async () => {
-      setExercise(await findExercise(eId))
+      setExercise(await findExercise(+groupId, +exerciseId))
     })()
-  }, [setExercise, findExercise, eId])
+  }, [setExercise, findExercise, exerciseId, groupId])
 
   if (!exercise)
     return (
       <Header
         backLink="/group/$groupId"
-        title="Oh-oh, no such exercise!"
+        title={exercise === undefined ? 'Oh-oh, no such exercise!' : ''}
         params={{ groupId }}
       />
     )
@@ -67,7 +66,7 @@ function ExerciseHistory() {
     <>
       <Header
         backLink="/group/$groupId"
-        title={`History for: ${exercise.name}`}
+        title={`History for: ${exercise?.name}`}
         params={{ groupId }}
       />
       <main>{history}</main>

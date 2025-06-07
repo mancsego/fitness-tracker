@@ -7,7 +7,10 @@ type ExerciseStore = {
   exercises: Exercise[]
   create: (name: string) => Promise<void>
   read: (groupId: number) => Promise<void>
-  findOne: (id: number) => Promise<Exercise | undefined>
+  findOne: (
+    groupId: number,
+    exerciseId: number,
+  ) => Promise<Exercise | undefined>
   update: (item: Exercise) => Promise<void>
   remove: (id: number) => Promise<void>
 }
@@ -31,15 +34,12 @@ const useExerciseStore = create<ExerciseStore>((set, get) => ({
     if (state.groupId === groupId && state.exercises.length) return
 
     const { data } = await (await getTable()).select().eq('group_id', groupId)
-    set({ exercises: data ?? [] })
+    set({ exercises: data ?? [], groupId })
   },
-  findOne: async (id: number) => {
-    const found = get().exercises.find((item) => item.id === id)
-    if (found) return found
+  findOne: async (groupId: number, exerciseId: number) => {
+    await get().read(groupId)
 
-    const { data } = await (await getTable()).select().eq('id', id)
-
-    return data?.[0]
+    return get().exercises.find((item) => item.id === exerciseId)
   },
   update: async (item: Exercise) => {
     const { status } = await (await getTable())

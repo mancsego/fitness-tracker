@@ -28,12 +28,9 @@ const useGroupStore = create<GroupStore>((set, get) => ({
     set({ groups: data ?? [] })
   },
   findOne: async (id: number) => {
-    const found = get().groups.find((item) => item.id === id)
-    if (found) return found
+    await get().read()
 
-    const { data } = await (await getTable()).select().eq('id', id)
-
-    return data?.[0]
+    return get().groups.find((item) => item.id === id)
   },
   update: async (id: number, name: string) => {
     const { status } = await (await getTable()).update({ name }).eq('id', id)

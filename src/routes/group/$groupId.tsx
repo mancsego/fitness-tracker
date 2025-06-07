@@ -4,7 +4,7 @@ import { startSession } from '@/store/auth'
 import { useExerciseStore } from '@/store/exercises'
 import { useGroupStore } from '@/store/groups'
 import type { Group } from '@/types'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { lazy, useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/group/$groupId')({
@@ -25,7 +25,7 @@ function ExerciseView() {
   const create = useExerciseStore(({ create }) => create)
   const findGroups = useGroupStore(({ findOne }) => findOne)
   const { groupId } = Route.useParams()
-  const [group, setGroup] = useState<Group | undefined>(undefined)
+  const [group, setGroup] = useState<Group | null | undefined>(null)
 
   useEffect(() => {
     ;(async () => {
@@ -43,16 +43,10 @@ function ExerciseView() {
 
   if (!group)
     return (
-      <>
-        <header className="section-highlight ">
-          <Link to="/" className="link">
-            Back
-          </Link>
-        </header>
-        <main className="px-2">
-          <h1>Oh-oh! There is no such group :(</h1>
-        </main>
-      </>
+      <Header
+        backLink="/"
+        title={group == undefined ? 'Oh-oh! Noo such group :(' : ''}
+      />
     )
 
   return (
