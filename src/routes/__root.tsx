@@ -1,9 +1,13 @@
 import IconSet from '@/components/common/IconSet'
+import { setupTheme } from '@/util/theme-handler'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 export const Route = createRootRoute({
   component: App,
+  beforeLoad: () => {
+    setupTheme()
+  },
 })
 
 function App() {
