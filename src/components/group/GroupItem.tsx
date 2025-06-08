@@ -56,21 +56,23 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex justify-between items-center min-h-[80px] py-4 mb-2 card card-primary-accent">
+    <div className="flex justify-between items-stretch min-h-[90px] py-4 mb-2 card card-primary-accent">
       <Link
         to="/group/$groupId"
-        className={`${editing ? 'hidden' : 'grow'}`}
+        className={`${editing ? 'hidden' : 'flex grow items-center justify-around'}`}
         params={{ groupId: '' + group.id }}
       >
         {group.name}
       </Link>
       <EditView item={group} visible={editing} close={toggleEditView} />
-      <button
-        className={`${editing ? 'hidden' : 'pill'}`}
-        onClick={toggleEditView}
-      >
-        edit
-      </button>
+      <div className="flex items-center">
+        <button
+          className={`${editing ? 'hidden' : 'pill'}`}
+          onClick={toggleEditView}
+        >
+          edit
+        </button>
+      </div>
     </div>
   )
 }

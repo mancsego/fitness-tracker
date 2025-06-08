@@ -40,7 +40,7 @@ function EditView({
   if (!visible) return null
 
   return (
-    <div className="min-w-full flex">
+    <div className="min-w-full flex items-center">
       <ActionIcon use="delete" action={handleRemove} />
       <input
         id={`name-${item.id}`}
@@ -89,7 +89,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col min-h-[110px] card card-primary-accent">
+    <div className="text-left my-2 flex flex-col min-h-[120px] card card-primary-accent">
       <div className="flex items-center justify-between">
         <Link
           to="/group/$groupId/exercise/$exerciseId"
@@ -98,9 +98,11 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
         >
           {item.name}
         </Link>
-        <button className="pill" onClick={toggleEditView}>
-          edit
-        </button>
+        <div className="mt-2">
+          <button className="pill" onClick={toggleEditView}>
+            edit
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-1 justify-between items-center py-2 overflow-hidden">
