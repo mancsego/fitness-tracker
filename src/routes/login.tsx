@@ -1,53 +1,75 @@
 import { useAuthStore } from '@/store/auth'
+import { backend } from '@/util/backend'
+import { getCurrentTheme } from '@/util/theme-handler'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useRef } from 'react'
+import { lazy, useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/login')({
   component: LoginView,
 })
 
+const useDark = getCurrentTheme() === 'dark'
+const Header = lazy(() => import('@/components/common/Header'))
+const appearance = {
+  theme: ThemeSupa,
+  variables: {
+    default: {
+      colors: {
+        inputLabelText: useDark ? '#d9f1ee' : '#00695c',
+        inputText: useDark ? '#d9f1ee' : '#00695c',
+      },
+    },
+  },
+}
+
 function LoginView() {
-  const login = useAuthStore(({ login }) => login)
   const navigate = useNavigate({ from: '/login' })
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const login = useAuthStore(({ login }) => login)
+  const refresh = useAuthStore(({ refresh }) => refresh)
 
-  const handle = async () => {
-    const email = emailRef?.current?.value
-    const password = passwordRef?.current?.value
+  const [hasSession, setHasSession] = useState(false)
 
-    if (!(email && password)) return
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = backend.auth.onAuthStateChange((_, session) => {
+      if (!session) return
 
-    await login(email, password)
-    navigate({ to: '/' })
-  }
+      login(session)
+      navigate({ to: '/' })
+    })
+    return () => subscription.unsubscribe()
+  }, [login, navigate])
+
+  useEffect(() => {
+    try {
+      refresh()
+      setHasSession(true)
+      navigate({ to: '/' })
+    } catch {
+      setHasSession(false)
+    }
+  }, [navigate, refresh, setHasSession])
+
+  const component = hasSession ? (
+    <div className="flex justify-around py-5 uppercase">
+      <h1>Logged in!</h1>
+    </div>
+  ) : (
+    <Auth
+      supabaseClient={backend}
+      providers={[]}
+      showLinks={false}
+      appearance={appearance}
+    />
+  )
 
   return (
-    <form className="flex flex-col justify-center grow *:mb-2" action={handle}>
-      <div className="flex justify-center">
-        <h1>Login</h1>
-      </div>
-      <input
-        ref={emailRef}
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        autoComplete="email"
-        required
-      />
-      <input
-        ref={passwordRef}
-        type="password"
-        id="pwd"
-        name="pwd"
-        placeholder="Password"
-        autoComplete="current-password"
-        required
-      />
-      <div className="mx-1 flex">
-        <button className="btn btn-primary">Login</button>
-      </div>
-    </form>
+    <>
+      <Header title="login" />
+      <main className="mx-5">{component}</main>
+    </>
   )
 }

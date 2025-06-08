@@ -1,4 +1,4 @@
-import type { AuthResponse, AuthSession } from '@supabase/supabase-js'
+import type { AuthResponse, AuthSession, Session } from '@supabase/supabase-js'
 import type { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient'
 import { redirect } from '@tanstack/react-router'
 import { create } from 'zustand'
@@ -8,9 +8,9 @@ type AuthStore = {
     access_token: string | null
     refresh_token: string | null
   }
-  login: (email: string, password: string) => Promise<void>
+  login: (session: Session) => Promise<void>
   register: (email: string, password: string) => Promise<void>
-  refresh: () => Promise<void>
+  refresh: () => void
 }
 
 const RT = 'rt_m'
@@ -38,15 +38,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     })
     stashTokens(session)
   },
-  login: async (email: string, password: string) => {
-    const res = await (
-      await auth
-    ).signInWithPassword({
-      email,
-      password,
-    })
-
-    const session = getSession(res)
+  login: async (session: Session) => {
     set({
       data: {
         access_token: session.access_token,
@@ -55,7 +47,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     })
     stashTokens(session)
   },
-  refresh: async () => {
+  refresh: () => {
     const token =
       get().data.refresh_token ?? unStashTokens().refresh_token ?? ''
 
