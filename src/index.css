@@ -81,6 +81,7 @@
   }
 
   .section-highlight {
-    @apply bg-white dark:bg-dark-secondary-background border border-secondary-accent tracking-widest text-left py-3 px-3 flex items-center uppercase font-semibold;
+    @apply bg-white border-b border-secondary-accent tracking-widest text-left py-3 px-3 flex items-center uppercase font-semibold;
+    @apply dark:bg-dark-secondary-background dark:border-dark-secondary-accent;
   }
 }

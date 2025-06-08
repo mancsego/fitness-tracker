@@ -15,6 +15,7 @@ export const Route = createFileRoute('/')({
   pendingComponent: Loading,
 })
 
+const Header = lazy(() => import('@/components/common/Header'))
 const Adder = lazy(() => import('@/components/common/Adder'))
 
 function GroupView() {
@@ -29,9 +30,7 @@ function GroupView() {
 
   return (
     <>
-      <header className="section-highlight">
-        <h1>Groups</h1>
-      </header>
+      <Header title="Groups" />
       <main className="px-2 text-center">
         <Adder handler={handler} placeholder="Type name..." />
         <div className="flex flex-col mt-2">{items}</div>

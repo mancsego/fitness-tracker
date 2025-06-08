@@ -69,7 +69,7 @@ function ExerciseHistory() {
   if (!exercise)
     return (
       <Header
-        backLink="/group/$groupId"
+        link="/group/$groupId"
         title={exercise === undefined ? 'Oh-oh, no such exercise!' : ''}
         params={{ groupId }}
       />
@@ -78,7 +78,7 @@ function ExerciseHistory() {
   return (
     <>
       <Header
-        backLink="/group/$groupId"
+        link="/group/$groupId"
         title={`History for: ${exercise?.name}`}
         params={{ groupId }}
       />

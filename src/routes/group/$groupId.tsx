@@ -46,14 +46,14 @@ function ExerciseView() {
   if (!group)
     return (
       <Header
-        backLink="/"
+        link="/"
         title={group == undefined ? 'Oh-oh! Noo such group :(' : ''}
       />
     )
 
   return (
     <>
-      <Header backLink="/" title={group.name} />
+      <Header link="/" title={group.name} />
       <main className="px-2">
         <Adder handler={handler} placeholder="Type name..." />
         <div className="flex flex-col mb-1">{exercises}</div>
