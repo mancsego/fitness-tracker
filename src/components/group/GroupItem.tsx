@@ -37,7 +37,7 @@ function EditView({
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
-        className="max-w-[170px]"
+        className="max-w-[160px]"
         ref={nameRef}
         type="text"
         defaultValue={item.name}
@@ -56,10 +56,10 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex justify-between items-center  py-4 mb-2 card min-h-[72px]">
+    <div className="flex justify-between items-center  py-4 mb-2 card min-h-[80px]">
       <Link
         to="/group/$groupId"
-        className={`${editing ? 'hidden' : ''}`}
+        className={`${editing ? 'hidden' : 'grow'}`}
         params={{ groupId: '' + group.id }}
       >
         {group.name}

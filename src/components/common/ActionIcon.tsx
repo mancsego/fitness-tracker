@@ -9,7 +9,7 @@ export default function ActionIcon({
 }) {
   return (
     <div className={className + ' p-2 focusable'} onClick={action}>
-      <svg className="fill-primary size-5">
+      <svg className="fill-primary size-7">
         <use xlinkHref={`#${use}`} />
       </svg>
     </div>

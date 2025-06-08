@@ -21,11 +21,13 @@ const Adder = lazy(() => import('@/components/common/Adder'))
 const Header = lazy(() => import('@/components/common/Header'))
 
 function ExerciseView() {
+  const { groupId } = Route.useParams()
+
+  const [group, setGroup] = useState<Group | null | undefined>(null)
+
   const entities = useExerciseStore(({ exercises }) => exercises)
   const create = useExerciseStore(({ create }) => create)
   const findGroups = useGroupStore(({ findOne }) => findOne)
-  const { groupId } = Route.useParams()
-  const [group, setGroup] = useState<Group | null | undefined>(null)
 
   useEffect(() => {
     ;(async () => {
@@ -38,7 +40,7 @@ function ExerciseView() {
   ))
 
   const handler = (name: string) => {
-    create(name)
+    create(name, +groupId)
   }
 
   if (!group)

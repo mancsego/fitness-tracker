@@ -5,7 +5,7 @@ import { create } from 'zustand'
 type ExerciseStore = {
   groupId: number
   exercises: Exercise[]
-  create: (name: string) => Promise<void>
+  create: (name: string, groupId: number) => Promise<void>
   read: (groupId: number) => Promise<void>
   findOne: (
     groupId: number,
@@ -18,9 +18,9 @@ type ExerciseStore = {
 const useExerciseStore = create<ExerciseStore>((set, get) => ({
   groupId: 0,
   exercises: [],
-  create: async (name: string) => {
+  create: async (name: string, groupId: number) => {
     const { data } = await (await getTable())
-      .insert({ name, group_id: 2 })
+      .insert({ name, group_id: groupId })
       .select()
     const record = data?.[0]
 

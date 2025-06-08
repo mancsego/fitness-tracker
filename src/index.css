@@ -23,7 +23,7 @@
 @layer components {
   input,
   select {
-    @apply p-2 bg-white border rounded-2xl border-secondary-accent mr-1 focus:outline-none focus:border-primary;
+    @apply py-3 px-2 bg-white border rounded-2xl border-secondary-accent mr-1 focus:outline-none focus:border-primary;
   }
 
   .focusable {
@@ -35,7 +35,7 @@
   }
 
   .pill {
-    @apply border border-secondary-accent bg-secondary-accent text-primary rounded-4xl px-2 py-1 text-xs cursor-pointer;
+    @apply border border-secondary-accent bg-secondary-accent text-primary rounded-4xl px-3 py-2 mt-2 text-xs cursor-pointer;
   }
 
   .link {
@@ -47,7 +47,7 @@
   }
 
   .btn {
-    @apply py-2 px-3 rounded-xl cursor-pointer w-full;
+    @apply py-3 px-4 rounded-xl cursor-pointer w-full;
   }
 
   .btn-primary {
