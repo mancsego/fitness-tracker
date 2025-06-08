@@ -21,9 +21,7 @@ function GroupView() {
   const groups = useGroupStore(({ groups }) => groups)
   const create = useGroupStore(({ create }) => create)
 
-  const exercises = groups.map((item) => (
-    <GroupItem key={item.id} group={item} />
-  ))
+  const items = groups.map((item) => <GroupItem key={item.id} group={item} />)
 
   const handler = (name: string) => {
     create(name)
@@ -36,7 +34,7 @@ function GroupView() {
       </header>
       <main className="px-2 text-center">
         <Adder handler={handler} placeholder="Type name..." />
-        <div className="flex flex-col mt-2">{exercises}</div>
+        <div className="flex flex-col mt-2">{items}</div>
       </main>
     </>
   )

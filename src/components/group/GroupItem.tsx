@@ -30,10 +30,10 @@ function EditView({
     close()
   }
 
-  if (!visible) return null
+  const wrapperClass = visible ? 'min-w-full flex items-center' : 'hidden'
 
   return (
-    <div className="min-w-full flex items-center">
+    <div className={wrapperClass}>
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
