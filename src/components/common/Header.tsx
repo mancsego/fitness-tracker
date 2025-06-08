@@ -12,7 +12,7 @@ export default function Header({
   return (
     <header className="section-highlight">
       <Link to={backLink} params={params} className="focusable mr-2">
-        <svg className="fill-primary size-6">
+        <svg className="fill-primary dark:fill-dark-primary-accent size-6">
           <use xlinkHref="#back" />
         </svg>
       </Link>

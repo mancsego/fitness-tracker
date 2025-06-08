@@ -28,9 +28,9 @@ export default function Adder({
         ref={name}
         placeholder={placeholder}
       />
-      <button className="btn btn-primary font-bold" onClick={handle}>
+      <button className="btn btn-primary" onClick={handle}>
         <span className="flex justify-around">
-          <svg className="fill-primary size-7">
+          <svg className="fill-primary dark:fill-dark-background size-7">
             <use xlinkHref="#save" />
           </svg>
         </span>

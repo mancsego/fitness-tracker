@@ -6,11 +6,24 @@
   --color-primary-accent: #ffb300;
   --color-secondary: #f57f17;
   --color-secondary-accent: #b2ebf2;
+  /* dark mode */
+  --color-dark-background: #2b4f4c;
+  --color-dark-primary: #d9f1ee;
+  --color-dark-primary-accent: #ffc107;
+  --color-dark-secondary: #ff9800;
+  --color-dark-secondary-accent: #b3e6ed;
+  --color-dark-secondary-background: #074540;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   body {
-    @apply bg-background text-primary text-sm tracking-widest;
+    @apply bg-background dark:bg-dark-background text-primary dark:text-dark-primary text-sm tracking-widest;
+  }
+  ::selection {
+    background: var(--color-dark-primary);
+    color: var(--color-dark-background);
   }
   h1 {
     @apply text-xl;
@@ -23,7 +36,9 @@
 @layer components {
   input,
   select {
-    @apply py-4 px-2 bg-white border rounded-2xl border-secondary-accent mr-1 focus:outline-none focus:border-primary;
+    @apply py-4 px-3  border rounded-2xl mr-1 focus:outline-none;
+    @apply bg-white border-secondary-accent focus:border-primary;
+    @apply dark:text-white dark:placeholder-white dark:bg-dark-background dark:border-secondary-accent dark:focus:border-dark-primary;
   }
 
   .focusable {
@@ -35,19 +50,21 @@
   }
 
   .pill {
-    @apply border border-secondary-accent bg-secondary-accent text-primary rounded-4xl px-3 py-2 text-xs cursor-pointer;
+    @apply border rounded-4xl px-3 py-2 text-xs cursor-pointer;
+    @apply border-secondary-accent bg-secondary-accent text-primary;
+    @apply dark:border-dark-primary-accent dark:bg-dark-primary-accent dark:text-dark-background dark:font-bold;
   }
 
   .link {
-    @apply cursor-pointer hover:underline transition duration-300 ease-in-out text-primary/80 tracking-wide font-bold p-2 w-full;
+    @apply cursor-pointer hover:underline transition duration-300 ease-in-out text-primary/80 dark:text-dark-primary tracking-widest font-bold p-2 w-full;
   }
 
   .card {
-    @apply bg-white rounded-2xl px-2 border-l-2 border-t-2;
+    @apply bg-white dark:bg-dark-secondary-background rounded-2xl px-2 border-l-2 border-t-2 shadow-lg;
   }
 
   .card-primary-accent {
-    @apply border-primary-accent;
+    @apply border-primary-accent dark:border-dark-primary-accent dark:shadow-secondary-accent/30;
   }
 
   .btn {
@@ -55,7 +72,8 @@
   }
 
   .btn-primary {
-    @apply bg-primary-accent/80 text-primary border-primary-accent hover:bg-primary-accent/75 hover:border-primary-accent/75 active:bg-primary-accent/75 active:border-primary-accent/75;
+    @apply bg-primary-accent/80 border-primary-accent text-primary  hover:bg-primary-accent/75 hover:border-primary-accent/75 active:bg-primary-accent/75 active:border-primary-accent/75;
+    @apply bg-dark-primary-accent/80 dark:border-dark-primary-accent dark:text-dark-primary  hover:bg-dark-primary-accent/75 hover:border-dark-primary-accent/75 active:bg-dark-primary-accent/75 active:border-dark-primary-accent/75;
   }
 
   .btn-secondary {
@@ -63,6 +81,6 @@
   }
 
   .section-highlight {
-    @apply bg-white border border-secondary-accent tracking-widest text-left py-3 px-3 flex items-center uppercase font-semibold;
+    @apply bg-white dark:bg-dark-secondary-background border border-secondary-accent tracking-widest text-left py-3 px-3 flex items-center uppercase font-semibold;
   }
 }
