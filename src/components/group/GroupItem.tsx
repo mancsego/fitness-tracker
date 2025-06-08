@@ -33,11 +33,11 @@ function EditView({
   if (!visible) return null
 
   return (
-    <div className="min-w-full flex">
+    <div className="min-w-full flex items-center">
       <input
         id={`name-${item.id}`}
         name={`name-${item.id}`}
-        className="max-w-[160px]"
+        className="grow"
         ref={nameRef}
         type="text"
         defaultValue={item.name}
