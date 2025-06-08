@@ -36,6 +36,7 @@ const useHistoryStore = create<HistoryStore>((set, get) => ({
     const { data } = await (await getTable())
       .select()
       .eq('exercise_id', exercise)
+      .order('id', { ascending: false })
 
     set({ history: data ?? [], exercise })
   },

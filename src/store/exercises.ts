@@ -33,7 +33,11 @@ const useExerciseStore = create<ExerciseStore>((set, get) => ({
 
     if (state.groupId === groupId && state.exercises.length) return
 
-    const { data } = await (await getTable()).select().eq('group_id', groupId)
+    const { data } = await (await getTable())
+      .select()
+      .eq('group_id', groupId)
+      .order('id')
+
     set({ exercises: data ?? [], groupId })
   },
   findOne: async (groupId: number, exerciseId: number) => {

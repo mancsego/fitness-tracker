@@ -24,7 +24,7 @@ const useGroupStore = create<GroupStore>((set, get) => ({
   read: async () => {
     if (get().groups.length) return
 
-    const { data } = await (await getTable()).select()
+    const { data } = await (await getTable()).select().order('id')
     set({ groups: data ?? [] })
   },
   findOne: async (id: number) => {
