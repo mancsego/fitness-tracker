@@ -43,7 +43,11 @@
   }
 
   .card {
-    @apply bg-white border-l-2 border-t-2 border-primary-accent rounded-2xl px-2;
+    @apply bg-white rounded-2xl px-2 border-l-2 border-t-2;
+  }
+
+  .card-primary-accent {
+    @apply border-primary-accent;
   }
 
   .btn {

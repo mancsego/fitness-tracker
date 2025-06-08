@@ -19,18 +19,31 @@ export const Route = createFileRoute('/group_/$groupId/exercise/$exerciseId')({
 const Header = lazy(() => import('@/components/common/Header'))
 
 function HistoryItem({ entry }: { entry: HistoryEntry }) {
+  const weight = (() => {
+    if (entry.weight)
+      return (
+        <div>
+          Weight:
+          <span className="text-secondary font-bold"> {entry.weight} kg</span>
+        </div>
+      )
+
+    return <div className="line-through">Weight</div>
+  })()
+
   return (
-    <div className="border-b pt-1 pb-3 px-2 text-center">
-      <div className="text-sm muted">
+    <div className="pt-3 pb-5 px-2 text-center card border-secondary uppercase mt-2">
+      <div className="text-lg text-secondary font-bold">
         {new Date(entry.created_at).toLocaleDateString()}
       </div>
-      <div className="flex justify-around">
-        <span>{entry.weight} kg</span>
-        <span>
-          {entry.reps}
-          <span className="multiplier">x</span>
-          {entry.sets}
-        </span>
+      <div className="flex justify-around pt-4">
+        {weight}
+        <div>
+          Sets: <span className="text-secondary font-bold">{entry.sets}</span>
+        </div>
+        <div>
+          Reps: <span className="text-secondary font-bold">{entry.reps}</span>
+        </div>
       </div>
     </div>
   )
@@ -69,7 +82,7 @@ function ExerciseHistory() {
         title={`History for: ${exercise?.name}`}
         params={{ groupId }}
       />
-      <main>{history}</main>
+      <main className="border-t pt-2 px-2">{history}</main>
     </>
   )
 }

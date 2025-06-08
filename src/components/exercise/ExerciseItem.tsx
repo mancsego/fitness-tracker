@@ -78,7 +78,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
       sets,
     }
     await update(updatedItem)
-    await createHistory(item)
+    await createHistory(updatedItem)
 
     setTimeout(() => {
       setUpdating(false)
@@ -89,7 +89,7 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col min-h-[110px] card">
+    <div className="text-left my-2 flex flex-col min-h-[110px] card card-primary-accent">
       <div className="flex items-center justify-between">
         <Link
           to="/group/$groupId/exercise/$exerciseId"

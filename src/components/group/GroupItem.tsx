@@ -56,7 +56,7 @@ export default function GroupItem({ group }: { group: Group }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="flex justify-between items-center  py-4 mb-2 card min-h-[80px]">
+    <div className="flex justify-between items-center min-h-[80px] py-4 mb-2 card card-primary-accent">
       <Link
         to="/group/$groupId"
         className={`${editing ? 'hidden' : 'grow'}`}
