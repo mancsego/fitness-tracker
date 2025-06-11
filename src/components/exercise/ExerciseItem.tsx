@@ -89,8 +89,8 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
     setEditing((prev) => !prev)
   }
   return (
-    <div className="text-left my-2 flex flex-col min-h-[120px] card card-primary-accent">
-      <div className="flex items-center justify-between">
+    <div className="text-left my-2 flex flex-col min-h-[140px] card card-primary-accent">
+      <div className="flex items-center justify-between pt-2">
         <Link
           to="/group/$groupId/exercise/$exerciseId"
           params={{ groupId: groupId ?? '-', exerciseId: '' + item.id }}
@@ -98,14 +98,14 @@ export default function ExerciseItem({ item }: { item: Exercise }) {
         >
           {item.name}
         </Link>
-        <div className="mt-2">
+        <div className="mt-1">
           <button className="pill" onClick={toggleEditView}>
             edit
           </button>
         </div>
       </div>
 
-      <div className="flex flex-1 justify-between items-center py-2 overflow-hidden">
+      <div className="flex flex-1 justify-between items-center py-4 overflow-hidden">
         <EditView visible={editing} item={item} close={toggleEditView} />
         <div>
           <select
