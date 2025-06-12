@@ -5,8 +5,8 @@ import { Link, useParams } from '@tanstack/react-router'
 import { lazy, useRef, useState } from 'react'
 
 const [, ...SET_OPTIONS] = [...Array(7).keys()]
-const [, ...REP_OPTIONS] = [...Array(17).keys()]
-const WEIGHTS = Array.from({ length: 15 }, (_, i) => i * 2)
+const [, ...REP_OPTIONS] = [...Array(41).keys()]
+const WEIGHTS = Array.from({ length: 30 }, (_, i) => i * 2)
 
 const ActionIcon = lazy(() => import('@/components/common/ActionIcon'))
 
