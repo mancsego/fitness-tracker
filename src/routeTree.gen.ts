@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
+import { Route as SessionsImport } from './routes/sessions'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as GroupGroupIdImport } from './routes/group/$groupId'
@@ -22,6 +23,12 @@ import { Route as GroupGroupIdExerciseExerciseIdImport } from './routes/group_/$
 const SettingsRoute = SettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SessionsRoute = SessionsImport.update({
+  id: '/sessions',
+  path: '/sessions',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -68,6 +75,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/sessions': {
+      id: '/sessions'
+      path: '/sessions'
+      fullPath: '/sessions'
+      preLoaderRoute: typeof SessionsImport
+      parentRoute: typeof rootRoute
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -97,6 +111,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sessions': typeof SessionsRoute
   '/settings': typeof SettingsRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
@@ -105,6 +120,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sessions': typeof SessionsRoute
   '/settings': typeof SettingsRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
@@ -114,6 +130,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/sessions': typeof SessionsRoute
   '/settings': typeof SettingsRoute
   '/group/$groupId': typeof GroupGroupIdRoute
   '/group_/$groupId/exercise/$exerciseId': typeof GroupGroupIdExerciseExerciseIdRoute
@@ -124,6 +141,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/sessions'
     | '/settings'
     | '/group/$groupId'
     | '/group/$groupId/exercise/$exerciseId'
@@ -131,6 +149,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/sessions'
     | '/settings'
     | '/group/$groupId'
     | '/group/$groupId/exercise/$exerciseId'
@@ -138,6 +157,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
+    | '/sessions'
     | '/settings'
     | '/group/$groupId'
     | '/group_/$groupId/exercise/$exerciseId'
@@ -147,6 +167,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  SessionsRoute: typeof SessionsRoute
   SettingsRoute: typeof SettingsRoute
   GroupGroupIdRoute: typeof GroupGroupIdRoute
   GroupGroupIdExerciseExerciseIdRoute: typeof GroupGroupIdExerciseExerciseIdRoute
@@ -155,6 +176,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  SessionsRoute: SessionsRoute,
   SettingsRoute: SettingsRoute,
   GroupGroupIdRoute: GroupGroupIdRoute,
   GroupGroupIdExerciseExerciseIdRoute: GroupGroupIdExerciseExerciseIdRoute,
@@ -172,6 +194,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/login",
+        "/sessions",
         "/settings",
         "/group/$groupId",
         "/group_/$groupId/exercise/$exerciseId"
@@ -182,6 +205,9 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/sessions": {
+      "filePath": "sessions.tsx"
     },
     "/settings": {
       "filePath": "settings.tsx"

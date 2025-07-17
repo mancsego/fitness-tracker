@@ -129,7 +129,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_weekly_exercise_aggregation: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          week_start: string
+          distinct_weekday_records: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,5 +1,15 @@
 import { Link } from '@tanstack/react-router'
 
+function HeaderLink({ to, icon }: { to: string; icon: string }) {
+  return (
+    <Link to={to} className="focusable mr-2 p-2 [&.active]:hidden">
+      <svg className="fill-primary dark:fill-dark-primary-accent size-8">
+        <use xlinkHref={`#${icon}`} />
+      </svg>
+    </Link>
+  )
+}
+
 export default function Header({
   title,
   link = undefined,
@@ -11,7 +21,7 @@ export default function Header({
 }) {
   const backLink =
     link && title ? (
-      <Link to={link} params={params} className="focusable mr-2">
+      <Link to={link} params={params} className="focusable mr-2 p-2">
         <svg className="fill-primary dark:fill-dark-primary-accent size-8">
           <use xlinkHref="#back" />
         </svg>
@@ -21,15 +31,10 @@ export default function Header({
   return (
     <header className="section-highlight">
       {backLink}
-      <h2>
-        <span>{title}</span>
-      </h2>
+      <h2>{title}</h2>
       <div className="grow flex justify-end">
-        <Link to="/settings" className="focusable mr-2 [&.active]:hidden">
-          <svg className="fill-primary dark:fill-dark-primary-accent size-8">
-            <use xlinkHref="#cog" />
-          </svg>
-        </Link>
+        <HeaderLink to="/sessions" icon="dumbbell" />
+        <HeaderLink to="/settings" icon="cog" />
       </div>
     </header>
   )
