@@ -27,7 +27,7 @@ const useHistoryStore = create<HistoryStore>((set, get) => ({
 
     if (!record) return
 
-    set((state) => ({ history: [...state.history, record] }))
+    set((state) => ({ history: [record, ...state.history] }))
   },
   read: async (exercise: number) => {
     const state = get()
