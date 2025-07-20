@@ -38,7 +38,13 @@ const useHistoryStore = create<HistoryStore>((set, get) => ({
       .eq('exercise_id', exercise)
       .order('id', { ascending: false })
 
-    set({ history: data ?? [], exercise })
+    const preparedData =
+      data?.map((entry) => ({
+        ...entry,
+        created_at: new Date(entry.created_at).toLocaleDateString(),
+      })) ?? []
+
+    set({ history: preparedData, exercise })
   },
 }))
 

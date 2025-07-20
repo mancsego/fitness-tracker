@@ -43,7 +43,7 @@ function HistoryItem({ entry }: { entry: HistoryEntry }) {
   return (
     <div className="pt-3 pb-5 px-2 text-center card border-secondary uppercase mt-2">
       <div className="text-lg text-secondary font-bold py-2">
-        {new Date(entry.created_at).toLocaleDateString()}
+        {entry.created_at}
       </div>
       <div className="flex justify-around pt-4">
         {weight}
