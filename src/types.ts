@@ -1,5 +1,8 @@
+type ExerciseType = 'regular' | 'endurance'
+
 type Exercise = {
   id: number
+  type: ExerciseType
   group_id: number
   name: string
   weight: number
@@ -21,4 +24,4 @@ type Group = {
   name: string
 }
 
-export type { Exercise, Group, HistoryEntry }
+export type { Exercise, ExerciseType, Group, HistoryEntry }
