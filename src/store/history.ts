@@ -20,7 +20,7 @@ const useHistoryStore = create<HistoryStore>((set, get) => ({
         exercise_id: item.id,
         weight: item.weight,
         sets: item.sets,
-        reps: item.reps,
+        metric: item.metric,
       })
       .select()
     const record = data?.[0]

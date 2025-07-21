@@ -2,7 +2,7 @@ import Loading from '@/components/common/Loading'
 import { startSession } from '@/store/auth'
 import { useExerciseStore } from '@/store/exercises'
 import { useHistoryStore } from '@/store/history'
-import type { Exercise, HistoryEntry } from '@/types'
+import type { Exercise, ExerciseType, HistoryEntry } from '@/types'
 import { createFileRoute } from '@tanstack/react-router'
 import { lazy, useEffect, useState } from 'react'
 import {
@@ -27,18 +27,21 @@ export const Route = createFileRoute('/group_/$groupId/exercise/$exerciseId')({
 
 const Header = lazy(() => import('@/components/common/Header'))
 
-function HistoryItem({ entry }: { entry: HistoryEntry }) {
-  const weight = (() => {
-    if (entry.weight)
-      return (
-        <div>
-          Weight:
-          <span className="text-secondary font-bold"> {entry.weight} kg</span>
-        </div>
-      )
-
-    return <div className="line-through">Weight</div>
-  })()
+function HistoryItem({
+  entry,
+  type,
+}: {
+  entry: HistoryEntry
+  type: ExerciseType | null | undefined
+}) {
+  const endurance = type === 'endurance'
+  const weights = (
+    <div className={endurance ? 'hidden' : ''}>
+      <span className={entry.weight > 0 ? '' : 'text-gray-500 line-through'}>
+        {entry.weight} kg
+      </span>
+    </div>
+  )
 
   return (
     <div className="pt-3 pb-5 px-2 text-center card border-secondary uppercase mt-2">
@@ -46,12 +49,13 @@ function HistoryItem({ entry }: { entry: HistoryEntry }) {
         {entry.created_at}
       </div>
       <div className="flex justify-around pt-4">
-        {weight}
+        {weights}
         <div>
-          Sets: <span className="text-secondary font-bold">{entry.sets}</span>
-        </div>
-        <div>
-          Reps: <span className="text-secondary font-bold">{entry.reps}</span>
+          <span>{entry.sets}</span>
+          <span>x</span>
+          <span>
+            {entry.metric} {endurance ? 'secs' : 'reps'}
+          </span>
         </div>
       </div>
     </div>
@@ -66,7 +70,7 @@ function ExerciseHistory() {
   const [exercise, setExercise] = useState<Exercise | null | undefined>(null)
 
   const history = entries.map((entry) => (
-    <HistoryItem entry={entry} key={`he-${entry.id}`} />
+    <HistoryItem entry={entry} key={`he-${entry.id}`} type={exercise?.type} />
   ))
 
   const chart = (
@@ -80,7 +84,7 @@ function ExerciseHistory() {
         <CartesianGrid strokeDasharray="3 3" />
         <Line dataKey="weight" className="*:store-primary" />
         <Line
-          dataKey="reps"
+          dataKey="metric"
           type="monotone"
           className="*:stroke-primary-accent"
         />

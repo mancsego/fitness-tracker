@@ -7,7 +7,7 @@ type Exercise = {
   name: string
   weight: number
   sets: number
-  reps: number
+  metric: number
 }
 
 type HistoryEntry = {
@@ -15,7 +15,7 @@ type HistoryEntry = {
   exercise_id: number
   weight: number
   sets: number
-  reps: number
+  metric: number
   created_at: string
 }
 

@@ -41,20 +41,20 @@ export type Database = {
           created_at: string
           exercise_id: number
           id: number
-          reps: number
+          metric: number
           sets: number
           updated_at: string
           weight: number
         }
         Insert: {
           exercise_id: number
-          reps?: number
+          metric?: number
           sets?: number
           weight?: number
         }
         Update: {
           exercise_id?: number
-          reps?: number
+          metric?: number
           sets?: number
           weight?: number
         }
@@ -74,24 +74,27 @@ export type Database = {
           group_id: number
           id: number
           name: string
-          reps: number
+          metric: number
           sets: number
           updated_at: string
           weight: number
+          type: string
         }
         Insert: {
           created_at?: string
           group_id: number
           name: string
-          reps?: number
+          metric?: number
           sets?: number
           weight?: number
+          type: string
         }
         Update: {
           name?: string
-          reps?: number
+          metric?: number
           sets?: number
           weight?: number
+          type: string
         }
         Relationships: [
           {
